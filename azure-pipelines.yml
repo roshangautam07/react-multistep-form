@@ -16,7 +16,6 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    ls
     npm install -g react-cli react
     npm install
     npm run build
@@ -24,7 +23,7 @@ steps:
   workingDirectory: '$(Build.SourcesDirectory)'
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/dist'
+    rootFolderOrFile: '$(Build.SourcesDirectory)/dist'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
