@@ -14,13 +14,24 @@ steps:
   inputs:
     versionSpec: '14.17.6'
   displayName: 'Install Node.js'
-
+- task: SonarQubePrepare@5
+  inputs:
+    SonarQube: 'demo'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'sqa_b8234bbd0c0e5ad47f42425b8ccc947f44e6b871'
+    cliProjectName: 'sqa_b8234bbd0c0e5ad47f42425b8ccc947f44e6b871'
+    cliSources: '.'
 - script: |
     npm install -g react-cli react
     npm install
     npm run build
   displayName: 'npm install and build'
   workingDirectory: '$(Build.SourcesDirectory)'
+- task: SonarQubeAnalyze@5
+- task: SonarQubePublish@5
+  inputs:
+    pollingTimeoutSec: '300'
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)/dist'
